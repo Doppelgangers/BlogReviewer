@@ -1,0 +1,1 @@
+start call C:\Users\Ozym\Desktop\AniBase\venv\Scripts\activate
