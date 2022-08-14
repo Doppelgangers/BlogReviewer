@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block link %}
+    <link rel="stylesheet" href="{% static 'autreg.css' %}">
+{% endblock %}
+
+{% block body %}
+
+    <div class="bgimg w3-display-container w3-animate-opacity w3-text-white" >
+
+        <div class="w3-display-middle">
+
+            <div class="custom-container">
+
+                <div class="w3-container dark-custom-collor round-top">
+                    <h2>{% if title_form %} {{ title_form }} {% else %} Авторизация {% endif %}</h2>
+                </div>
+
+                <form class="w3-container form-decoration  round-bottum" method="post" >
+
+                {% csrf_token %}
+{#                {{ form.as_p }}#}
+
+                {% for f in form %}
+
+                    <p>
+                        <label class="w3-text-white" for="{{ f.id_for_label }}" ><b> {{ f.label }} </b></label>
+                            {{ f }}
+                    {% if f.errors %}
+                    <div class="form-error w3-center">
+                        <b><p>{{ f.errors }}</p></b>
+                    </div>
+                    {% endif %}
+{#                        <input class="w3-input w3-border w3-round "  name="first" type="text">#}
+                    </p>
+
+                {% endfor %}
+{#                    <p>#}
+{#                        <label class="w3-text-white"><b>Логин</b></label>#}
+{##}
+{#                        <input class="w3-input w3-border w3-round "  name="first" type="text">#}
+{#                    </p>#}
+
+
+                    <p class="w3-center">
+                        <button type="submit" class="w3-btn dark-custom-collor w3-round ">{% if title_form_btn %} {{ title_form_btn }} {% else %} ENTER {% endif %}</button>
+                    </p>
+
+                    <p>
+                        {{ text_help }} <a href="{% url link %}"> {{ text_help2 }} </a>
+                    </p>
+
+                </form>
+
+
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+{% endblock %}

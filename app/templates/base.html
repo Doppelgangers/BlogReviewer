@@ -1,0 +1,38 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="{% static 'w3.css' %}">
+    <link rel="stylesheet" href="{% static 'defoult.css' %}">
+    {% block link %}{% endblock link %}
+
+    <title> {{ title }} </title>
+
+</head>
+
+<body>
+
+    {% block header %}
+        <div class="w3-bar w3-large w3-text-white" style="background-color: #6a5f8a; ">
+            <a class="w3-bar-item  ">Blog Reviwer</a>
+        </div>
+    {% endblock header %}
+
+
+    {% block body %}
+        Base template
+    {% endblock %}
+
+    {% block footer %}
+        <footer class="w3-center w3-padding-64"  style="background-color: #6a5f8a; ">
+
+        </footer>
+    {% endblock footer %}
+
+</body>
+
+</html>

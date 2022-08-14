@@ -1,1 +1,1 @@
-start call C:\Users\Ozym\Desktop\AniBase\venv\Scripts\activate
+start call C:\Users\Ozym\Desktop\dev.BlogReviwer\venv\Scripts\activate
