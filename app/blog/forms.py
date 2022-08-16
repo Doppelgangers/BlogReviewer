@@ -19,4 +19,4 @@ class RegisterUserForm(UserCreationForm):
 
 class LoginForm (AuthenticationForm):
     username = forms.CharField(label='Логин' , widget= forms.TextInput(attrs={'class' : 'w3-input w3-border w3-round' }))
-    password = forms.CharField(label='Пороль' , widget= forms.TextInput(attrs={'class' : 'w3-input w3-border w3-round' }))
+    password = forms.CharField(label='Пороль' , widget= forms.PasswordInput(attrs={'class' : 'w3-input w3-border w3-round' }))

@@ -27,11 +27,7 @@
                     <p>
                         <label class="w3-text-white" for="{{ f.id_for_label }}" ><b> {{ f.label }} </b></label>
                             {{ f }}
-                    {% if f.errors %}
-                    <div class="form-error w3-center">
-                        <b><p>{{ f.errors }}</p></b>
-                    </div>
-                    {% endif %}
+
 {#                        <input class="w3-input w3-border w3-round "  name="first" type="text">#}
                     </p>
 
@@ -41,6 +37,25 @@
 {##}
 {#                        <input class="w3-input w3-border w3-round "  name="first" type="text">#}
 {#                    </p>#}
+
+{#                {% for f in form %}#}
+{#                    {% if may %}#}
+{#                        {% if f.errors %}#}
+{##}
+{#                        <div class="form-error w3-center">#}
+{#                            <b><p>{{ f.errors  }}</p></b>#}
+{#                        </div>#}
+{##}
+{#                        {% endif %}#}
+{#                    {% endif %}#}
+{#                {% endfor %}#}
+
+                {% if form.errors %}
+                    <div class="form-error w3-center">
+                            <b><p> {{ form.errors }} </p></b>
+                        </div>
+                {% endif %}
+
 
 
                     <p class="w3-center">

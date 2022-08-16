@@ -1,6 +1,39 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block link %}
+    <link rel="stylesheet" href=" {% static 'blog/blog.css' %} ">
+{% endblock link %}
 
 {% block body %}
+
+
+<div class="container w3-row">
+
+    <aside class="w3-col m4 s12 l2"></aside>
+
+    <section class="w3-col m8 s12 l10">
+
+        <div class="w3-row-padding">
+
+            {% with '12345' as list %}
+
+
+            {% for l in list %}
+
+            <article class="w3-col m6 s12 l3 ">
+                <div class="poster">Берсерг {{ l }} том</div>
+            </article>
+
+            {% endfor %}
+            {% endwith %}
+
+        </div>
+
+
+    </section>
+
+</div>
 
 
 

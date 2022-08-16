@@ -1,0 +1,27 @@
+
+.spase {
+    height: 90vh;
+
+}
+
+.container
+{
+
+}
+
+
+aside {
+    background-color: #ccf;
+    border-right: 1px solid #3d3d70 ;
+
+    min-height: 800px;
+}
+
+article{
+    margin-top: 10px;
+}
+
+.poster {
+        border: 1px solid #ccf;
+
+}
