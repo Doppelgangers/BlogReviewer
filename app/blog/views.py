@@ -9,6 +9,32 @@ from django.views.generic import TemplateView, CreateView
 from blog.forms import RegisterUserForm, LoginForm
 from blog.utils import DataMixin
 
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR') # В REMOTE_ADDR значение айпи пользователя
+    return ip
+
+
+# Страница самого поста
+# def post_view(request, slug):
+#     post = Post.objects.get(slug=slug)
+#
+#     ip = get_client_ip(request)
+#
+#     if Ip.objects.filter(ip=ip).exists():
+#         post.views.add(Ip.objects.get(ip=ip))
+#     else:
+#         Ip.objects.create(ip=ip)
+#         post.views.add(Ip.objects.get(ip=ip))
+#
+#     context = {
+#         'post': post,
+#     }
+#     return render(request, 'main/post.html', context)
+
 def logout_user(request):
     logout(request)
     return redirect('home')
@@ -23,8 +49,6 @@ class Registration (CreateView):
     form_class = RegisterUserForm
     template_name = 'autreg.html'
     success_url = reverse_lazy('aut')
-
-
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
