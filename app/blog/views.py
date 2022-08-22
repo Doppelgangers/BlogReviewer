@@ -4,9 +4,10 @@ from django.contrib.auth.views import LoginView
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView, CreateView
+from django.views.generic import TemplateView, CreateView , View , ListView
 
 from blog.forms import RegisterUserForm, LoginForm
+from blog.models import *
 from blog.utils import DataMixin
 
 def get_client_ip(request):
@@ -16,6 +17,17 @@ def get_client_ip(request):
     else:
         ip = request.META.get('REMOTE_ADDR') # В REMOTE_ADDR значение айпи пользователя
     return ip
+
+class Post_detail(View):
+    def get(self , request , slug):
+        pass
+class Posts_by_category(ListView):
+    model = Artwork
+    template_name = 'blog/index.html'
+    context_object_name = 'blog'
+
+    def get_queryset(self):
+        return Artwork.objects.filter(category__slug=self.kwargs["slug_category"])
 
 
 # Страница самого поста
