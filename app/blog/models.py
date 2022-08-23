@@ -22,23 +22,38 @@ class Artwork (models.Model):
     slug  = models.SlugField( verbose_name="URL" , unique=True , db_index=True , blank=True)
 
     def get_absolute_url(self):
-        return reverse('post_detail' , kwargs={'slug':self.slug} )
+        return reverse('post_detail' , kwargs={'slug_post_detail':self.slug} )
 
     def total_views(self):
         return self.views.count()
 
+    class Meta:
+        ordering = ['-data_end_look']
+
 class Category (models.Model):
     title = models.CharField(max_length=255 , verbose_name='Название')
     slug = models.SlugField(verbose_name="URL", unique=True, db_index=True)
+
+    def get_posts_by_category(self):
+        return reverse('posts_by_category' , kwargs={'slug_category' : self.slug})
+
+    def __str__(self):
+        return self.title
 
 class Genre (models.Model):
     title = models.CharField(max_length=255 , verbose_name='Название')
     slug = models.SlugField(verbose_name="URL", unique=True, db_index=True)
     description = models.CharField(max_length=1_000, null=True, verbose_name="Описание")
 
+    def __str__(self):
+        return self.title
+
 class Series (models.Model):
     title = models.CharField(max_length=255, verbose_name='Название')
     slug = models.SlugField(verbose_name="URL", unique=True, db_index=True)
+
+    def __str__(self):
+        return self.title
 
 class Author(models.Model):
     name = models.CharField(max_length=255, verbose_name='Имя/Псевданим')
@@ -46,7 +61,10 @@ class Author(models.Model):
     image = models.ImageField(upload_to="authors/", verbose_name='Обложка', null=True , blank=True)
     content = models.TextField(verbose_name='Информаия о авторе',null=True,blank=True)
     def get_absolute_url(self):
-        return reverse('author_detail' , kwargs={'slug':self.slug} )
+        return reverse('author_detail' , kwargs={'slug_author_detail':self.slug} )
+
+    def __str__(self):
+        return self.name
 
 class Ip(models.Model):  # наша таблица где будут айпи адреса
     ip = models.CharField(max_length=100)

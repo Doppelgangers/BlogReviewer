@@ -12,31 +12,38 @@
 
     <aside class=" w3-col m4 s12 l2 w3-hide-small ">
 
+        {% if now_category %}
+            {% for cat in now_category %}
+
         <div id="sidebar-one" class="custom-sidebar-container ">
-            <a href="" class="custom-sidebar-title"> <h3><b>Книги</b></h3> </a>
+             <div href="" class="custom-sidebar-title"> <h3> <a href="{% url 'home' %}" style="text-decoration: none">🡄</a> <b>{{ cat.title }}</b></h3> </div>
         </div>
+
+             {% endfor %}
+        {% endif %}
 
         <div id="sidebar-one" class="custom-sidebar-container ">
 
             <a href="" class="custom-sidebar-title"> <h4>Фильтры</h4> </a>
 
-            <a href="" class="custom_sidebar-block   "> Хранология </a>
-            <a href="" class="custom_sidebar-block"> Жанры </a>
-            <a href="" class="custom_sidebar-block"> Авторы </a>
-            <a href="" class="custom_sidebar-block"> Исполнтели </a>
 
+            {% if cat_menu %}
             <div class="custom-dropdown-hover ">
                 <a href="" class="custom_sidebar-block  custom-dropdown-title"> ▼ Категории </a>
                 <div class="custom-dropdown-content ">
-                    <a href="" class="custom_sidebar-block custom-dropdown-item"> ☻ Книги </a>
-                    <a href="" class="custom_sidebar-block custom-dropdown-item"> ☻ Фильмы </a>
-                    <a href="" class="custom_sidebar-block custom-dropdown-item"> ☻ Ранобе </a>
-                    <a href="" class="custom_sidebar-block custom-dropdown-item"> ☻ Аниме </a>
+                    {% for c in cat_menu %}
+                    <a href="{{ c.get_posts_by_category }}" class="custom_sidebar-block custom-dropdown-item"> ☻ {{ c.title }} </a>
+                    {% endfor %}
+
                 </div>
             </div>
+            {% endif %}
+
+            <a href="" class="custom_sidebar-block"> Жанры </a>
+            <a href="" class="custom_sidebar-block"> Авторы </a>
+
 
         </div>
-
 
     </aside>
 {#===================================================================================================================#}
@@ -45,36 +52,42 @@
         <div class="c-navbar-container">
             <div class="w3-bar c-navbar">
 
-{#                <a href="#" class="w3-bar-item c-navbar-item">Add</a>#}
+{#              <a href="#" class="w3-bar-item c-navbar-item">Add</a>#}
 
                 <form class="w3-right w3-hide-medium w3-hide-small ">
                     <input class="w3-input w3-bar-item " type="text" placeholder="Найти . . .">
                     <button class=" w3-bar-item c-navbar-item ">🔎</button>
                 </form>
 
-
-
-
             </div>
         </div>
+
+        {% block main_content %}
+
         <div class="w3-row-padding">
 
-            {% with '123456789' as list %}
 
 
-            {% for l in list %}
+
+            {% for p in post %}
 
             <article class="w3-col m4 s6 l3 xl2  ">
-                <a href="" class="link-post" >
+                <a href="{{ p.get_absolute_url }}" class="link-post" >
                 <div class="w3-card  w3-row w3-hover-shadow">
 
                     <div class="content-image w3-col s12">
-                        <img class="w3-image " style="height: 100%;" src="/static/img/{{ l }}.jpg" alt="Non found">
+                        <img class="w3-image " style="height: 100%;" src="{{ p.image.url }}" alt="Non found">
                     </div>
 
                     <div class="content-post w3-col s12">
-                        <div href="#" class="title-post" >Звучи, эуфониум! Добро пожаловать в клуб духового оркестра старшей школы Китауджи / Hibike! Euphonium Movie 1: Kitauji Koukou Suisougaku-bu e Youkoso</div>
-                        <div class="post-data"> 16.08.22 </div>
+                        <div  class="title-post" >,;̥̖̭͕͔̝͇̞̠̰͐̿̆ͣ̈͟͡;̵̸̻̓̐͆̾ͭ̈́ͫ̈́́͜͞    {{ p.title }}</div>
+
+
+
+                            <div class="post-data "> {{ p.data_end_look|date:"d.m.Y"  }} </div>
+
+
+
                     </div>
 
                 </div>
@@ -83,11 +96,10 @@
             </article>
 
             {% endfor %}
-            {% endwith %}
-
-
 
         </div>
+
+        {% endblock main_content %}
 
 
     </section>

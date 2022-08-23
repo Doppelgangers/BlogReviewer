@@ -19,16 +19,36 @@ def get_client_ip(request):
     return ip
 
 class Post_detail(View):
-    def get(self , request , slug):
+    def get(self , request , slug_post_detail):
+        return render( request , 'blog/detail_post.html' , context={} )
+
+class Author_detail(View):
+    def get(self , request , slug_post_detail):
         pass
+
 class Posts_by_category(ListView):
     model = Artwork
     template_name = 'blog/index.html'
-    context_object_name = 'blog'
+    context_object_name = 'post'
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'BlogReviwer'
+        context['now_category'] = Category.objects.filter( slug=self.kwargs["slug_category"] )
+        return context
 
     def get_queryset(self):
         return Artwork.objects.filter(category__slug=self.kwargs["slug_category"])
 
+class Posts_all(ListView):
+    model = Artwork
+    template_name = 'blog/index.html'
+    context_object_name = 'post'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'BlogReviwer'
+        context['cat_menu'] = Category.objects.all()
+        return context
 
 # Страница самого поста
 # def post_view(request, slug):
