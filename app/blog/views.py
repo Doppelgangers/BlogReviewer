@@ -20,7 +20,23 @@ def get_client_ip(request):
 
 class Post_detail(View):
     def get(self , request , slug_post_detail):
-        return render( request , 'blog/detail_post.html' , context={} )
+        post = Artwork.objects.get(slug=slug_post_detail)
+        ip = get_client_ip(request)
+
+        if Ip.objects.filter(ip=ip).exists():
+            post.views.add(Ip.objects.get(ip=ip))
+        else:
+            Ip.objects.create(ip=ip)
+            post.views.add(Ip.objects.get(ip=ip))
+
+
+        context = {
+            "title": "Title" ,
+            "post" : post
+        }
+
+
+        return render( request , 'blog/detail_post.html' , context=context )
 
 class Author_detail(View):
     def get(self , request , slug_post_detail):

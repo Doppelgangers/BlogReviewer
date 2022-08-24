@@ -12,6 +12,7 @@ urlpatterns = [
 
     path('detail/post/<str:slug_post_detail>', Post_detail.as_view() , name = 'post_detail' ),
     path('detail/author/<str:slug_author_detail>', Author_detail.as_view() , name = 'author_detail' ),
+    path('detail/genre/<str:slug_genre_detail>', Author_detail.as_view() , name = 'genre_detail' ),
 
 ]
 

@@ -1,6 +1,7 @@
 {% extends 'blog/index.html' %}
 {% load static %}
 
+
 {% block link %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static 'blog/detail_post.css' %}">
@@ -15,35 +16,128 @@
 
             <div class="w3-col s12 m4 l3  post_image ">
 
-                <img class="w3-image" src="{% static 'img/2.jpg' %}" alt="title-image">
+                <img class="w3-image" src="{{ post.image.url }}" alt="title-image">
 
             </div>
 
             <div class="w3-col w3-padding s12 m8 l9  ">
+{#=== Название тайтла  ===#}
+                <h3><a href="#"> {{ post.title }} / {{ post.english_title }} </a></h3>
 
-                <h3><a href="#">Какой то тайтл</a></h3> 748 👁
+                <h4 style="text-align: right ; color: darkblue">{{ post.total_views }} 👁</h4>
 
                 <div class="info-post w3-row w3-padding-small">
 
                     <div class="w3-col s6 l4 ">
-                        <p>Серия:<br> <a href=""> down </a></p>
-                        <p>Год: <br> 2014</p>
-                        <p>Тип: <br> <a href=""> Ранобе</a></p>
-                        <p>Жанры: <br>  <a href=""> Комедия</a>, <a href=""> Сёнен </a>   </p>
+{#=== Серия  ===#}
+                        <p>
+                            Серия:
+                            <br>
+                            {% if post.series %}
+                                <a href="">{{ post.series }}</a>
+                            {% else %}
+                                <span style="color: #7a7a7a">Не указан</span>
+                            {% endif %}
+                        </p>
+{#=== Номер (том/сезон) ===#}
+                        <p>
+                            Номер {% if post.category.title.lower == "аниме" %}
+                            сезона
+                            {% elif post.category.title.lower == "ранобе"%}
+                            тома
+                            {% endif %} :
+                            <br>
+                            {% if post.number %}
+                                {{ post.number }}
+                            {% else %}
+                                <span style="color: #7a7a7a">Не указан</span>
+                            {% endif %}
+                        </p>
+{#=== Категория ===#}
+                        <p>
+                            Тип:
+                            <br>
+                            {% if post.category %}
+                                <a href="">{{ post.category }}</a>
+                            {% else %}
+                                <span style="color: #7a7a7a">Не указан</span>
+                            {% endif %}
+                        </p>
+{#=== Жанры ===#}
+                        <p>
+                            Жанры:
+                            <br>
+                            {% if post.genre.all %}
+                                {% for ganre in post.genre.all %}
+                                <a href="{{ ganre.get_detail_ganre }}">{{ ganre.title }}</a>
+                                {% endfor %}
+                            {% else %}
+                                <span style="color: #7a7a7a">Не указан</span>
+                            {% endif %}
+                        </p>
+
 
 
                     </div>
 
+{#===================================     C O L  - - -  2     ===============================================#}
                     <div class="w3-col s6 l4 ">
-                        <p>Пост создал: <br> doppelganger</p>
-                        <p>Дата просмотра: <br> 23.08.22</p>
-                        <p>Автор: <br> <a href=""> Маруямэ Куганэ </a>  </p>
-                        <p>Оценка: <br> 7</p>
+{#=== Создатель ===#}
+                        <p>
+                            Пост создал:
+                            <br>
+                            {% if post.creator %}
+                                <a href="">{{ post.creator }}</a>
+                            {% else %}
+                                <span style="color: #7a7a7a">Не указан</span>
+                            {% endif %}
+                        </p>
+{#=== Дата ===#}
+                        <p>
+                            Дата просмотра:
+                            <br>
+                            {% if post.data_end_look %}
+                                {{ post.data_end_look|date:'d.m.Y' }}
+                            {% else %}
+                                <span style="color: #7a7a7a">Не указан</span>
+                            {% endif %}
+                        </p>
+{#=== Автор ===#}
+                        <p>
+                            Автор:
+                            <br>
+                            {% if post.author.name %}
+                                <a href="">{{ post.author.name }}</a>
+                            {% else %}
+                                <span style="color: #7a7a7a">Не указан</span>
+                            {% endif %}
+                        </p>
+{#=== Год ===#}
+                        <p>
+                            Год:
+                            <br>
+                            {% if post.year  %}
+                                {{ post.year }}
+                            {% else %}
+                                <span style="color: #7a7a7a">Не указан</span>
+                            {% endif %}
+                        </p>
+
 
                     </div>
-
+{#===================================     C O L  - - -  3     ===============================================#}
                     <div class="w3-col w3-hide-small w3-hide-medium l4">
-                        123
+
+                        <p>
+                            Оценка:
+                            <br>
+                            {% if post.estimatio  %}
+                                {{ post.estimatio }}
+                            {% else %}
+                                <span style="color: #7a7a7a">Не указана</span>
+                            {% endif %}
+                        </p>
+
                     </div>
 
                 </div>
@@ -52,32 +146,39 @@
             </div>
 
         </div>
-
+{#===================================     I N F O  - - -  B L O C K  - - - 2    ===============================================#}
         <br>
         <h2>Скриншоты</h2>
         <!-- Flickity HTML init -->
         <div class="gallery js-flickity"
-          data-flickity-options='{ "wrapAround": true , "autoPlay": 5000  }'>
-          <div class="gallery-cell"></div>
-          <div class="gallery-cell"></div>
-          <div class="gallery-cell"></div>
-          <div class="gallery-cell"></div>
-          <div class="gallery-cell"></div>
+            data-flickity-options='{ "wrapAround": true , "autoPlay": 3000  }'>
+            <div class="gallery-cell"> <img src="{% static '1.jpg' %}" alt="">  </div>
+            <div class="gallery-cell"> <img src="{% static '2.jpg' %}" alt=""> </div>
+            <div class="gallery-cell"> <img src="{% static '3.jpg' %}" alt=""> </div>
+            <div class="gallery-cell"> <img src="{% static '4.jpg' %}" alt=""> </div>
+            <div class="gallery-cell"> <img src="{% static '5.jpg' %}" alt=""> </div>
+            <div class="gallery-cell"> <img src="{% static '6.jpg' %}" alt=""> </div>
         </div>
+{#===================================     I N F O  - - -  B L O C K  - - - 3    ===============================================#}
 
         <div class="w3-row info-block">
 
+            {% if post.description %}
             <h2>Описание</h2>
-
             <div class="description-post">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquam animi at corporis delectus deserunt dicta dolores ducimus eius enim error esse explicabo fugiat hic impedit ipsa labore laborum minima molestiae nobis odio quasi quibusdam quo recusandae rem reprehenderit repudiandae, sed velit veniam veritatis! A amet, architecto blanditiis cupiditate dolorum est, expedita fuga iure laboriosam modi neque officia quae quibusdam, repellat repellendus sit tempora totam ullam vel voluptatem. Asperiores blanditiis cumque doloribus est ex explicabo in maxime, nam nesciunt nihil nostrum porro praesentium quae, quaerat reiciendis repellat, reprehenderit sed. Consequuntur delectus enim est eum mollitia. Accusantium animi dolorem exercitationem quibusdam!
+                {{ post.description|linebreaks  }}
             </div>
+            {% endif %}
+            <br>
 
+
+            {% if post.review %}
             <h2>Отзыв</h2>
-
             <div class="review-post">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium beatae blanditiis doloremque error excepturi fugit, quaerat quam reprehenderit sequi tempore! Ad beatae cupiditate dolores ducimus earum esse eum eveniet minus molestias nesciunt nisi possimus quidem, repudiandae sapiente sed, similique sit! Laborum, minus, nobis! Aliquid est minus, ratione tenetur ut velit. Accusamus aliquam aperiam architecto asperiores aspernatur aut blanditiis consequuntur debitis dicta, dolorum eaque esse eveniet facilis hic impedit laudantium maxime modi molestias necessitatibus non numquam quisquam, quo rem reprehenderit repudiandae sint suscipit, tenetur velit veniam veritatis! Dignissimos distinctio esse ipsam labore molestiae molestias nesciunt velit voluptatum! Aliquid, architecto, assumenda beatae blanditiis deleniti dignissimos ducimus eligendi eveniet fuga harum illum incidunt maiores modi molestiae necessitatibus non pariatur praesentium quia recusandae repellendus sed unde vero. Aliquid animi est labore! Deleniti, expedita fugit! Asperiores cupiditate doloremque ipsum iusto laborum maxime neque provident quas, quis ratione. Accusamus aliquid assumenda autem consectetur cum eos expedita facere facilis illo iusto libero, minus mollitia nesciunt officiis perspiciatis placeat provident quae, quam quia quos ratione repudiandae sequi similique tenetur vel, velit voluptates. Commodi cumque debitis deserunt, ducimus eum, id magnam molestias necessitatibus nisi quaerat, quas quasi recusandae rerum saepe tempora tempore voluptate? Error modi nisi praesentium reprehenderit vitae!
+                {{ post.review }}
             </div>
+            {% endif %}
+            <br>
 
         </div>
 

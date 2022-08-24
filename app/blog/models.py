@@ -4,11 +4,14 @@ from django.contrib.auth.models import User
 class Artwork (models.Model):
 
     title = models.CharField(max_length=255 , verbose_name='Название')
+    english_title = models.CharField(max_length=255 , verbose_name='Англиское название' , blank=True , null=True)
     image = models.ImageField( upload_to="photos/%Y/%m/%d/", verbose_name='Обложка'  , null=True )
-    year  = models.IntegerField(  verbose_name="Год" , blank=True , null=True )
+    year = models.IntegerField(  verbose_name="Год" , blank=True , null=True )
     estimatio = models.IntegerField(verbose_name="Оценка" , blank=True  , null=True)
     description = models.TextField( blank=True , verbose_name="Описание")
     review = models.TextField( blank=True , verbose_name="Отзыв")
+
+    number = models.IntegerField(verbose_name="Номер тома или сезона" , null=True , blank=True)
 
     author = models.ForeignKey('Author' , models.SET_NULL , verbose_name='Автор' ,blank=True , null=True )
     category = models.ForeignKey('Category' , models.PROTECT , verbose_name='Категория')
@@ -20,7 +23,7 @@ class Artwork (models.Model):
     data_end_look = models.DateTimeField(auto_now_add=True , verbose_name='Дата просмотра' , blank=True )
     data_create = models.DateTimeField(auto_now_add=True , verbose_name="Дата публикации записи" , blank=True)
     slug  = models.SlugField( verbose_name="URL" , unique=True , db_index=True , blank=True)
-
+    is_active = models.BooleanField( default=True )
     def get_absolute_url(self):
         return reverse('post_detail' , kwargs={'slug_post_detail':self.slug} )
 
@@ -41,9 +44,12 @@ class Category (models.Model):
         return self.title
 
 class Genre (models.Model):
-    title = models.CharField(max_length=255 , verbose_name='Название')
+    title = models.CharField(max_length=255, verbose_name='Название')
     slug = models.SlugField(verbose_name="URL", unique=True, db_index=True)
     description = models.CharField(max_length=1_000, null=True, verbose_name="Описание")
+
+    def get_detail_ganre(self):
+        return reverse('genre_detail' , kwargs={'slug_genre_detail' : self.slug})
 
     def __str__(self):
         return self.title
@@ -71,3 +77,7 @@ class Ip(models.Model):  # наша таблица где будут айпи а
 
     def __str__(self):
         return self.ip
+
+class Image_Artwork(models.Model):
+    artwork = models.ForeignKey(Artwork, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to="images_artwork/", verbose_name='Снимоок')
